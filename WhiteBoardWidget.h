@@ -7,7 +7,7 @@ class WhiteBoardWidget : public QWidget
 {
     Q_OBJECT
 
-    QPixmap underlyingImage;
+    QPixmap underlyingImage, background;
     QPoint lastPoint;
 public:
     explicit WhiteBoardWidget(QWidget *parent = nullptr);
