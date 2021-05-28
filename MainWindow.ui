@@ -26,25 +26,12 @@
          <x>0</x>
          <y>0</y>
          <width>1202</width>
-         <height>769</height>
+         <height>773</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="WhiteBoardWidget" name="board" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>800</width>
-            <height>600</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>800</width>
-            <height>600</height>
-           </size>
-          </property>
-         </widget>
+         <widget class="WhiteBoardWidget" name="board" native="true"/>
         </item>
        </layout>
       </widget>
@@ -58,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>1218</width>
-     <height>36</height>
+     <height>34</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuBoard">
@@ -66,6 +53,9 @@
      <string>Boa&amp;rd</string>
     </property>
     <addaction name="action_Clear"/>
+    <addaction name="actionReset"/>
+    <addaction name="separator"/>
+    <addaction name="actionPaste"/>
    </widget>
    <addaction name="menuBoard"/>
   </widget>
@@ -80,7 +70,26 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Clear">
    <property name="text">
-    <string>&amp;Clear</string>
+    <string>&amp;Clear drawing</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>&amp;Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="text">
+    <string>&amp;Reset</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Del</string>
    </property>
   </action>
  </widget>
@@ -93,6 +102,8 @@
    <container>1</container>
    <slots>
     <slot>clearBoard()</slot>
+    <slot>newBackground(QPixmap)</slot>
+    <slot>clearDrawing()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -102,7 +113,7 @@
    <sender>action_Clear</sender>
    <signal>triggered()</signal>
    <receiver>board</receiver>
-   <slot>clearBoard()</slot>
+   <slot>clearDrawing()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -114,5 +125,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionPaste</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>performPaste()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionReset</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>resetBoard()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>performPaste()</slot>
+  <slot>resetBoard()</slot>
+ </slots>
 </ui>

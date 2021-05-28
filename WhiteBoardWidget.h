@@ -20,6 +20,11 @@ signals:
 
 public slots:
     void clearBoard();
+    void clearDrawing();
+    void newBackground(QPixmap pixmap);
+
+private:
+    void internalClearBackground(QSize size);
 };
 
 #endif // WHITEBOARDWIDGET_H

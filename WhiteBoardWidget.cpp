@@ -14,10 +14,7 @@ void WhiteBoardWidget::paintEvent(QPaintEvent *event) {
 }
 
 void WhiteBoardWidget::resizeEvent(QResizeEvent *event) {
-    background = QPixmap( event->size() );
-    background.fill( Qt::white );
-    underlyingImage = QPixmap( event->size() );
-    underlyingImage.fill( QColor(255, 255, 255, 0) );
+    internalClearBackground(event->size());
 }
 
 void WhiteBoardWidget::mousePressEvent(QMouseEvent *event) {
@@ -37,6 +34,28 @@ void WhiteBoardWidget::mouseMoveEvent(QMouseEvent *event) {
 
 // Slots
 void WhiteBoardWidget::clearBoard() {
-    underlyingImage.fill( Qt::white );
+    setMinimumSize(QSize(0,0));
+    setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
+
+    internalClearBackground(size());
+}
+
+void WhiteBoardWidget::clearDrawing() {
+    underlyingImage.fill( QColor(255, 255, 255, 0) );
     update();
+}
+
+void WhiteBoardWidget::newBackground(QPixmap pixmap) {
+    setMinimumSize(pixmap.size());
+    setMaximumSize(pixmap.size());
+    background = std::move(pixmap);
+    clearDrawing();
+    resize(pixmap.size());
+}
+
+void WhiteBoardWidget::internalClearBackground(QSize size) {
+    background = QPixmap( size );
+    background.fill( Qt::white );
+    underlyingImage = QPixmap( size );
+    clearDrawing();
 }
