@@ -21,13 +21,18 @@ public:
     void mouseMoveEvent(QMouseEvent *event) override;
 
     void tabletEvent(QTabletEvent *event) override;
+
+    QColor getPenColor() const;
+    qreal getPenSize() const {
+        return penWidth;
+    }
 signals:
 
 public slots:
     void clearBoard();
     void clearDrawing();
     void newBackground(QPixmap pixmap);
-    void setPenColor();
+    void setPenColor(QColor color);
 
 private:
     void internalClearBackground(QSize size);

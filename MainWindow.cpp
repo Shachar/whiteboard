@@ -5,6 +5,8 @@
 
 #include <QtDebug>
 
+#include <sstream>
+
 static const QColor
     brown(130, 85, 0),
     orange(244, 165, 0),
@@ -28,19 +30,33 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    Q_ASSERT( BuiltinColors.size() <= 9 );
     auto iconSize = ui->colorToolBar->iconSize();
+    unsigned i=0;
     for( auto &color : BuiltinColors ) {
         QPixmap pix(iconSize);
         pix.fill(color);
         QAction *action = ui->colorToolBar->addAction(QIcon( std::move(pix) ), "Color");
 
         action->setData( color );
-        connect( action, SIGNAL(triggered()), ui->board, SLOT(setPenColor()) );
+        char keyStr[2] = "1";
+        keyStr[0] += i++;
+        action->setShortcut( QKeySequence( QString(keyStr) ) );
+        connect( action, SIGNAL(triggered()), this, SLOT(setPenColor()) );
+
+        addAction(action);
     }
 
     for( auto &action : ui->menuBar->actions() ) {
         adoptMenuActions(action);
     }
+
+    statusPenSize = new QLabel();
+    ui->statusBar->addWidget(statusPenSize);
+    statusPenColor = new QLabel();
+    ui->statusBar->addWidget(statusPenColor);
+
+    updateStatusBar();
 }
 
 MainWindow::~MainWindow()
@@ -73,9 +89,16 @@ void MainWindow::toggleFullScreen() {
     }
 }
 
+void MainWindow::setPenColor() {
+    auto senderAction = dynamic_cast<QAction *>(sender());
+    Q_ASSERT(senderAction != nullptr); // setPenColor called not by signal, not from action
+    ui->board->setPenColor(senderAction->data().value<QColor>());
+    updateStatusBar();
+}
+
 void MainWindow::unimportantWidgetsVisibility(bool show) {
     ui->menuBar->setVisible(show);
-    ui->statusBar->setVisible(show);
+    ui->colorToolBar->setVisible(show);
     ui->statusBar->setVisible(show);
 }
 
@@ -89,4 +112,14 @@ void MainWindow::adoptMenuActions(QAction *action) {
     } else {
         addAction(action);
     }
+}
+
+void MainWindow::updateStatusBar() {
+    QPixmap color( statusPenColor->size().height(), statusPenColor->size().height() );
+    color.fill( ui->board->getPenColor() );
+    statusPenColor->setPixmap( std::move(color) );
+
+    std::stringstream formatter;
+    formatter<<"Pen size: "<<ui->board->getPenSize();
+    statusPenSize->setText(formatter.str().c_str());
 }

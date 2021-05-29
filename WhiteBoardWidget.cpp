@@ -42,6 +42,10 @@ void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
     }
 }
 
+QColor WhiteBoardWidget::getPenColor() const {
+    return penColor;
+}
+
 // Slots
 void WhiteBoardWidget::clearBoard() {
     setMinimumSize(QSize(0,0));
@@ -55,10 +59,8 @@ void WhiteBoardWidget::clearDrawing() {
     update();
 }
 
-void WhiteBoardWidget::setPenColor() {
-    auto senderAction = dynamic_cast<QAction *>(sender());
-    Q_ASSERT(senderAction != nullptr); // setPenColor called not by signal, not from action
-    penColor = senderAction->data().value<QColor>();
+void WhiteBoardWidget::setPenColor(QColor color) {
+    penColor = color;
 }
 
 void WhiteBoardWidget::newBackground(QPixmap pixmap) {

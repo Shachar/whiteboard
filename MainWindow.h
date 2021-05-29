@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
 
 namespace Ui {
 class MainWindow;
@@ -19,12 +20,16 @@ public slots:
     void performPaste();
     void resetBoard();
     void toggleFullScreen();
+    void setPenColor();
 
 private:
     void unimportantWidgetsVisibility(bool show);
     void adoptMenuActions(QAction *action);
+    void updateStatusBar();
 
-    Ui::MainWindow *ui;
+    Ui::MainWindow *ui = nullptr;
+    QLabel *statusPenSize = nullptr;
+    QLabel *statusPenColor = nullptr;
 };
 
 #endif // MAINWINDOW_H
