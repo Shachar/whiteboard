@@ -2,8 +2,11 @@
 
 #include <QPainter>
 #include <QResizeEvent>
+#include <QtDebug>
 
-WhiteBoardWidget::WhiteBoardWidget(QWidget *parent) : QWidget(parent)
+static constexpr QPointF InvalidPoint = QPointF(-1, -1);
+
+WhiteBoardWidget::WhiteBoardWidget(QWidget *parent) : QWidget(parent), lastPoint(InvalidPoint)
 {
 }
 
@@ -22,14 +25,20 @@ void WhiteBoardWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void WhiteBoardWidget::mouseMoveEvent(QMouseEvent *event) {
-    QPainter painter( &underlyingImage );
-    painter.setRenderHint(QPainter::Antialiasing);
-    QPen pen = painter.pen();
-    pen.setWidthF(2);
-    painter.setPen(pen);
-    painter.drawLine( lastPoint, event->pos() );
-    lastPoint = event->pos();
-    update();
+    draw(event->pos(), 1);
+}
+
+void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
+    event->accept();
+
+    if( (event->buttons() & Qt::LeftButton)==0 ) {
+        lastPoint=InvalidPoint;
+    } else {
+        if( lastPoint==InvalidPoint )
+            lastPoint=event->posF();
+        else
+            draw(event->posF(), event->pressure());
+    }
 }
 
 // Slots
@@ -58,4 +67,15 @@ void WhiteBoardWidget::internalClearBackground(QSize size) {
     background.fill( Qt::white );
     underlyingImage = QPixmap( size );
     clearDrawing();
+}
+
+void WhiteBoardWidget::draw(QPointF pos, qreal pressure) {
+    QPainter painter( &underlyingImage );
+    painter.setRenderHint(QPainter::Antialiasing);
+    QPen pen = painter.pen();
+    pen.setWidthF(2 * pressure);
+    painter.setPen(pen);
+    painter.drawLine( lastPoint, pos );
+    lastPoint = pos;
+    update();
 }
