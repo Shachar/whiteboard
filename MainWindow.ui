@@ -105,7 +105,7 @@
    <addaction name="menuBoard"/>
    <addaction name="menuWindow"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
+  <widget class="QToolBar" name="colorToolBar">
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>

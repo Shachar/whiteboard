@@ -5,11 +5,38 @@
 
 #include <QtDebug>
 
+static const QColor
+    brown(130, 85, 0),
+    orange(244, 165, 0),
+    pink(252, 0, 235);
+
+static const std::array BuiltinColors{
+        QColor(Qt::black),
+        QColor(Qt::white),
+        QColor(Qt::red),
+        QColor(Qt::green),
+        QColor(Qt::blue),
+        QColor(Qt::yellow),
+        orange,
+        brown,
+        pink
+    };
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    auto iconSize = ui->colorToolBar->iconSize();
+    for( auto &color : BuiltinColors ) {
+        QPixmap pix(iconSize);
+        pix.fill(color);
+        QAction *action = ui->colorToolBar->addAction(QIcon( std::move(pix) ), "Color");
+
+        action->setData( color );
+        connect( action, SIGNAL(triggered()), ui->board, SLOT(setPenColor()) );
+    }
 
     for( auto &action : ui->menuBar->actions() ) {
         adoptMenuActions(action);

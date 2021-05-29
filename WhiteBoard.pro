@@ -6,6 +6,8 @@
 
 QT       += core gui
 
+QMAKE_CXXFLAGS += -std=c++1z
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = WhiteBoard

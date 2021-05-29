@@ -8,6 +8,8 @@ class WhiteBoardWidget : public QWidget
     Q_OBJECT
 
     QPixmap underlyingImage, background;
+    qreal penWidth = 2;
+    QColor penColor = Qt::black;
     QPointF lastPoint;
 public:
     explicit WhiteBoardWidget(QWidget *parent = nullptr);
@@ -25,6 +27,7 @@ public slots:
     void clearBoard();
     void clearDrawing();
     void newBackground(QPixmap pixmap);
+    void setPenColor();
 
 private:
     void internalClearBackground(QSize size);

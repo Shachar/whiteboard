@@ -1,5 +1,6 @@
 #include "WhiteBoardWidget.h"
 
+#include <QAction>
 #include <QPainter>
 #include <QResizeEvent>
 #include <QtDebug>
@@ -54,6 +55,12 @@ void WhiteBoardWidget::clearDrawing() {
     update();
 }
 
+void WhiteBoardWidget::setPenColor() {
+    auto senderAction = dynamic_cast<QAction *>(sender());
+    Q_ASSERT(senderAction != nullptr); // setPenColor called not by signal, not from action
+    penColor = senderAction->data().value<QColor>();
+}
+
 void WhiteBoardWidget::newBackground(QPixmap pixmap) {
     setMinimumSize(pixmap.size());
     setMaximumSize(pixmap.size());
@@ -73,7 +80,8 @@ void WhiteBoardWidget::draw(QPointF pos, qreal pressure) {
     QPainter painter( &underlyingImage );
     painter.setRenderHint(QPainter::Antialiasing);
     QPen pen = painter.pen();
-    pen.setWidthF(2 * pressure);
+    pen.setColor( penColor );
+    pen.setWidthF(penWidth * pressure);
     painter.setPen(pen);
     painter.drawLine( lastPoint, pos );
     lastPoint = pos;
