@@ -18,8 +18,12 @@ public:
 public slots:
     void performPaste();
     void resetBoard();
+    void toggleFullScreen();
 
 private:
+    void unimportantWidgetsVisibility(bool show);
+    void adoptMenuActions(QAction *action);
+
     Ui::MainWindow *ui;
 };
 
