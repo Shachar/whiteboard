@@ -1,16 +1,14 @@
 #ifndef WHITEBOARDWIDGET_H
 #define WHITEBOARDWIDGET_H
 
+#include "BoardBackground.h"
+
 #include <QWidget>
 
 class WhiteBoardWidget : public QWidget
 {
     Q_OBJECT
 
-    QPixmap underlyingImage, background;
-    qreal penWidth = 2;
-    QColor penColor = Qt::black;
-    QPointF lastPoint;
 public:
     explicit WhiteBoardWidget(QWidget *parent = nullptr);
 
@@ -32,12 +30,19 @@ public slots:
     void clearBoard();
     void clearDrawing();
     void newBackground(QPixmap pixmap);
+    void newBackground(BoardBackground background);
     void setPenColor(QColor color);
 
 private:
     void internalClearBackground(QSize size);
 
     void draw(QPointF pos, qreal pressure);
+
+    QPixmap underlyingImage, backgroundImage;
+    qreal penWidth = 2;
+    QColor penColor = Qt::black;
+    QPointF lastPoint;
+    BoardBackground backgroundType;
 };
 
 #endif // WHITEBOARDWIDGET_H

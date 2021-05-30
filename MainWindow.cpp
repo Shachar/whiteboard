@@ -30,6 +30,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->actionPlain->setData( QVariant::fromValue(BoardBackground(BoardBackground::Type::Plain)) );
+    ui->actionLines->setData( QVariant::fromValue(BoardBackground(BoardBackground::Type::Lines)) );
+    ui->actionGrid->setData( QVariant::fromValue(BoardBackground(BoardBackground::Type::Grid)) );
+
     Q_ASSERT( BuiltinColors.size() <= 9 );
     auto iconSize = ui->colorToolBar->iconSize();
     unsigned i=0;
@@ -74,7 +78,6 @@ void MainWindow::performPaste() {
 
 void MainWindow::resetBoard() {
     ui->board->clearBoard();
-
 }
 
 void MainWindow::toggleFullScreen() {
@@ -94,6 +97,12 @@ void MainWindow::setPenColor() {
     Q_ASSERT(senderAction != nullptr); // setPenColor called not by signal, not from action
     ui->board->setPenColor(senderAction->data().value<QColor>());
     updateStatusBar();
+}
+
+void MainWindow::backgroundType() {
+    auto senderAction = dynamic_cast<QAction *>(sender());
+    Q_ASSERT(senderAction != nullptr); // backgroundType called not by signal, not from action
+    ui->board->newBackground(senderAction->data().value<BoardBackground>());
 }
 
 void MainWindow::unimportantWidgetsVisibility(bool show) {

@@ -21,6 +21,7 @@ public slots:
     void resetBoard();
     void toggleFullScreen();
     void setPenColor();
+    void backgroundType();
 
 private:
     void unimportantWidgetsVisibility(bool show);

@@ -28,11 +28,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         MainWindow.cpp \
-    WhiteBoardWidget.cpp
+    WhiteBoardWidget.cpp \
+    BoardBackground.cpp
 
 HEADERS += \
         MainWindow.h \
-    WhiteBoardWidget.h
+    WhiteBoardWidget.h \
+    BoardBackground.h
 
 FORMS += \
         MainWindow.ui

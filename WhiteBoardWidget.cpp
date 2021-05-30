@@ -13,7 +13,11 @@ WhiteBoardWidget::WhiteBoardWidget(QWidget *parent) : QWidget(parent), lastPoint
 
 void WhiteBoardWidget::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
-    painter.drawPixmap( event->rect(), background, event->rect() );
+    if( backgroundImage.isNull() )
+        backgroundType.draw(painter, event->rect());
+    else
+        painter.drawPixmap( event->rect(), backgroundImage, event->rect() );
+
     painter.drawPixmap( event->rect(), underlyingImage, event->rect() );
 }
 
@@ -66,14 +70,18 @@ void WhiteBoardWidget::setPenColor(QColor color) {
 void WhiteBoardWidget::newBackground(QPixmap pixmap) {
     setMinimumSize(pixmap.size());
     setMaximumSize(pixmap.size());
-    background = std::move(pixmap);
+    backgroundImage = std::move(pixmap);
     clearDrawing();
     resize(pixmap.size());
 }
 
+void WhiteBoardWidget::newBackground(BoardBackground background) {
+    backgroundType = background;
+    update();
+}
+
 void WhiteBoardWidget::internalClearBackground(QSize size) {
-    background = QPixmap( size );
-    background.fill( Qt::white );
+    backgroundImage = QPixmap();
     underlyingImage = QPixmap( size );
     clearDrawing();
 }

@@ -91,6 +91,16 @@
     <property name="title">
      <string>Boa&amp;rd</string>
     </property>
+    <widget class="QMenu" name="menuBackground">
+     <property name="title">
+      <string>&amp;Background</string>
+     </property>
+     <addaction name="actionPlain"/>
+     <addaction name="actionLines"/>
+     <addaction name="actionGrid"/>
+    </widget>
+    <addaction name="menuBackground"/>
+    <addaction name="separator"/>
     <addaction name="action_Clear"/>
     <addaction name="actionReset"/>
     <addaction name="separator"/>
@@ -144,6 +154,30 @@
    </property>
    <property name="shortcut">
     <string>F5</string>
+   </property>
+  </action>
+  <action name="actionPlain">
+   <property name="text">
+    <string>&amp;Plain</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
+  </action>
+  <action name="actionLines">
+   <property name="text">
+    <string>&amp;Lines</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionGrid">
+   <property name="text">
+    <string>&amp;Grid</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
    </property>
   </action>
  </widget>
@@ -227,10 +261,59 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionPlain</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>backgroundType()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionLines</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>backgroundType()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionGrid</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>backgroundType()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>performPaste()</slot>
   <slot>resetBoard()</slot>
   <slot>toggleFullScreen()</slot>
+  <slot>backgroundType()</slot>
  </slots>
 </ui>
