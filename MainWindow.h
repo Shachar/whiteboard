@@ -22,6 +22,8 @@ public slots:
     void toggleFullScreen();
     void setPenColor();
     void backgroundType();
+    void loadImage();
+    //void saveImage();
 
 private:
     void unimportantWidgetsVisibility(bool show);

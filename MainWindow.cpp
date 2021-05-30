@@ -2,6 +2,8 @@
 #include "ui_MainWindow.h"
 
 #include <QClipboard>
+#include <QFileDialog>
+#include <QSettings>
 
 #include <QtDebug>
 
@@ -105,6 +107,24 @@ void MainWindow::backgroundType() {
     ui->board->newBackground(senderAction->data().value<BoardBackground>());
 }
 
+void MainWindow::loadImage() {
+    QSettings settings;
+    QVariant lastDir = settings.value("LastOpenedFile");
+
+    QFileDialog dlg(this, "Open background image", lastDir.isValid() ? lastDir.toString() : nullptr);
+    dlg.setAcceptMode( QFileDialog::AcceptMode::AcceptOpen );
+    dlg.setFileMode( QFileDialog::FileMode::ExistingFile );
+    dlg.setOption( QFileDialog::ReadOnly );
+
+    if( dlg.exec() ) {
+        QString filename = dlg.selectedFiles()[0];
+        ui->board->newBackground(QPixmap(filename));
+
+        settings.setValue("LastOpenedFile", filename);
+    }
+}
+
+// Private methods
 void MainWindow::unimportantWidgetsVisibility(bool show) {
     ui->menuBar->setVisible(show);
     ui->colorToolBar->setVisible(show);
