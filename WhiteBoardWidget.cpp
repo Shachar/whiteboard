@@ -32,7 +32,24 @@ void WhiteBoardWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void WhiteBoardWidget::mouseMoveEvent(QMouseEvent *event) {
-    draw(event->pos(), 1, false);
+    DrawType type;
+
+    auto buttons = event->buttons();
+
+    if( (buttons & Qt::MiddleButton) != 0 ) {
+        type = DrawType::Highlighter;
+    } else if( (buttons & (Qt::LeftButton | Qt::RightButton)) == (Qt::LeftButton | Qt::RightButton) ) {
+        type = DrawType::Highlighter;
+    } else if( (buttons & Qt::RightButton) != 0 ) {
+        type = DrawType::Eraser;
+    } else if( (buttons & Qt::LeftButton) != 0 ) {
+        type = DrawType::Pen;
+    } else {
+        qDebug()<<"Mouse move with no relevant button pressed";
+        return;
+    }
+
+    draw(event->pos(), 1, type);
 }
 
 void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
@@ -40,12 +57,25 @@ void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
 
     if( (event->buttons() & Qt::LeftButton)==0 ) {
         lastPoint=InvalidPoint;
-    } else {
-        if( lastPoint==InvalidPoint )
-            lastPoint=event->posF();
-        else
-            draw(event->posF(), event->pressure(), event->pointerType() == QTabletEvent::PointerType::Eraser);
+        return;
     }
+
+    if( lastPoint==InvalidPoint ) {
+        lastPoint=event->posF();
+        return;
+    }
+
+    DrawType type;
+
+    if( event->pointerType() == QTabletEvent::PointerType::Eraser ) {
+        type = DrawType::Highlighter;
+    } else if( (event->buttons() & Qt::MiddleButton) != 0 ) {
+        type = DrawType::Eraser;
+    } else {
+        type = DrawType::Pen;
+    }
+
+    draw(event->posF(), event->pressure(), type);
 }
 
 QColor WhiteBoardWidget::getPenColor() const {
@@ -88,15 +118,31 @@ void WhiteBoardWidget::internalClearBackground(QSize size) {
     clearDrawing();
 }
 
-void WhiteBoardWidget::draw(QPointF pos, qreal pressure, bool highlight) {
+void WhiteBoardWidget::draw(QPointF pos, qreal pressure, DrawType drawType) {
     QPainter painter( &underlyingImage );
     painter.setRenderHint(QPainter::Antialiasing);
     QPen pen = painter.pen();
-    QColor color = penColor;
-    if( highlight )
-        color.setAlphaF( HighlightAlpha );
-    pen.setColor( color );
-    pen.setWidthF(penWidth * pressure * (highlight ? HighlightSizeFactor : 1));
+
+    switch(drawType) {
+    case DrawType::Pen:
+        pen.setColor(penColor);
+        pen.setWidthF(penWidth * pressure);
+        break;
+    case DrawType::Highlighter:
+        {
+            QColor color = penColor;
+            color.setAlphaF( HighlightAlpha );
+            pen.setColor( color );
+            pen.setWidthF(penWidth * pressure * HighlightSizeFactor);
+        }
+        break;
+    case DrawType::Eraser:
+        //pen.setColor( QColor(255, 255, 255, 0) );
+        pen.setWidthF(penWidth * pressure * HighlightSizeFactor);
+        painter.setCompositionMode( QPainter::CompositionMode_Clear );
+        break;
+    }
+
     painter.setPen(pen);
     painter.drawLine( lastPoint, pos );
     lastPoint = pos;

@@ -34,9 +34,14 @@ public slots:
     void setPenColor(QColor color);
 
 private:
+    enum class DrawType {
+        Pen,
+        Highlighter,
+        Eraser,
+    };
     void internalClearBackground(QSize size);
 
-    void draw(QPointF pos, qreal pressure, bool highlight);
+    void draw(QPointF pos, qreal pressure, DrawType drawType);
 
     QPixmap underlyingImage, backgroundImage;
     qreal penWidth = 2;
