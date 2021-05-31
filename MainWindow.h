@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "SecondaryWindow.h"
+
 #include <QMainWindow>
 #include <QLabel>
 
@@ -24,6 +26,7 @@ public slots:
     void backgroundType();
     void loadImage();
     //void saveImage();
+    void extraWindow(bool enable);
 
 private:
     void unimportantWidgetsVisibility(bool show);
@@ -33,6 +36,7 @@ private:
     Ui::MainWindow *ui = nullptr;
     QLabel *statusPenSize = nullptr;
     QLabel *statusPenColor = nullptr;
+    SecondaryWindow *secondary = nullptr;
 };
 
 #endif // MAINWINDOW_H

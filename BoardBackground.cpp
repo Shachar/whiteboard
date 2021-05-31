@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-void BoardBackground::draw(QPainter &painter, const QRect &updateArea) const {
+void BoardBackground::draw(QRectF sourceRect, QPainter &painter, const QRect &updateArea) const {
     static const QColor LinesColor(Qt::cyan);
 
     QPen pen = painter.pen();
@@ -22,12 +22,13 @@ void BoardBackground::draw(QPainter &painter, const QRect &updateArea) const {
         break;
     case Type::Lines:
         for(
-            int y=LineSpacing-1 + (updateArea.top() / LineSpacing) * LineSpacing;
+            int y=LineSpacing-1 + (sourceRect.top() / LineSpacing) * LineSpacing;
             y<updateArea.bottom();
             y+=LineSpacing
            )
         {
-            painter.drawLine( updateArea.left(), y, updateArea.right(), y );
+            qreal realY = y/sourceRect.height()*updateArea.height();
+            painter.drawLine( updateArea.left(), realY, updateArea.right(), realY );
         }
         break;
     case Type::Grid:
@@ -37,7 +38,8 @@ void BoardBackground::draw(QPainter &painter, const QRect &updateArea) const {
             y+=GridSpacing
            )
         {
-            painter.drawLine( updateArea.left(), y, updateArea.right(), y );
+            qreal realY = y/sourceRect.height()*updateArea.height();
+            painter.drawLine( updateArea.left(), realY, updateArea.right(), realY );
         }
         for(
             int x=GridSpacing-1 + (updateArea.left() / GridSpacing) * GridSpacing;
@@ -45,7 +47,8 @@ void BoardBackground::draw(QPainter &painter, const QRect &updateArea) const {
             x+=GridSpacing
            )
         {
-            painter.drawLine( x, updateArea.top(), x, updateArea.bottom() );
+            qreal realX = x/sourceRect.width()*updateArea.width();
+            painter.drawLine( realX, updateArea.top(), realX, updateArea.bottom() );
         }
         break;
     }

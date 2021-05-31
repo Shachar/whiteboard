@@ -124,6 +124,23 @@ void MainWindow::loadImage() {
     }
 }
 
+void MainWindow::extraWindow(bool enable) {
+    if( enable ) {
+        if( secondary )
+            return;
+
+        secondary = new SecondaryWindow(this, ui->board);
+        secondary->show();
+    } else {
+        if( !secondary )
+            return;
+
+        secondary->close();
+        secondary = nullptr;
+        ui->actionSecond_Window->setChecked(false);
+    }
+}
+
 // Private methods
 void MainWindow::unimportantWidgetsVisibility(bool show) {
     ui->menuBar->setVisible(show);

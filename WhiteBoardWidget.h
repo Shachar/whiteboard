@@ -24,7 +24,11 @@ public:
     qreal getPenSize() const {
         return penWidth;
     }
+
+    void drawOnMe( QPainter &painter, QRect regionOfInterest );
+
 signals:
+    void imageUpdated();
 
 public slots:
     void clearBoard();
@@ -42,6 +46,7 @@ private:
     void internalClearBackground(QSize size);
 
     void draw(QPointF pos, qreal pressure, DrawType drawType);
+    void drawingChanged();
 
     QPixmap underlyingImage, backgroundImage;
     qreal penWidth = 2;

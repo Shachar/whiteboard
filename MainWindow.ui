@@ -111,6 +111,8 @@
      <string>Wi&amp;ndow</string>
     </property>
     <addaction name="actionFull_screen"/>
+    <addaction name="separator"/>
+    <addaction name="actionSecond_Window"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -199,6 +201,17 @@
    </property>
    <property name="text">
     <string>&amp;Save...</string>
+   </property>
+  </action>
+  <action name="actionSecond_Window">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Second Window</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
    </property>
   </action>
  </widget>
@@ -362,6 +375,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSecond_Window</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>extraWindow(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>performPaste()</slot>
@@ -370,5 +399,6 @@
   <slot>backgroundType()</slot>
   <slot>loadImage()</slot>
   <slot>saveImage()</slot>
+  <slot>extraWindow(bool)</slot>
  </slots>
 </ui>

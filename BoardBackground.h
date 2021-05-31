@@ -16,7 +16,7 @@ public:
     explicit constexpr BoardBackground(Type type = Type::Plain) : _type(type)
     {}
 
-    void draw(QPainter &painter, const QRect &updateArea) const;
+    void draw(QRectF sourceRect, QPainter &painter, const QRect &updateArea) const;
 
     Type type() const {
         return _type;

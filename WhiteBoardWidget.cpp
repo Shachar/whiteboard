@@ -15,12 +15,27 @@ WhiteBoardWidget::WhiteBoardWidget(QWidget *parent) : QWidget(parent), lastPoint
 
 void WhiteBoardWidget::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
-    if( backgroundImage.isNull() )
-        backgroundType.draw(painter, event->rect());
-    else
-        painter.drawPixmap( event->rect(), backgroundImage, event->rect() );
+    drawOnMe(painter, event->rect());
+}
 
-    painter.drawPixmap( event->rect(), underlyingImage, event->rect() );
+void WhiteBoardWidget::drawOnMe(QPainter &painter, QRect regionOfInterest) {
+    painter.save();
+
+    QSize deviceSize( painter.device()->width(), painter.device()->height() );
+    QRectF sourceRect(
+                regionOfInterest.left()/double(deviceSize.width())*size().width(),
+                regionOfInterest.top()/double(deviceSize.height())*size().height(),
+                regionOfInterest.width()/double(deviceSize.width())*size().width(),
+                regionOfInterest.height()/double(deviceSize.height())*size().height()
+            );
+    if( backgroundImage.isNull() )
+        backgroundType.draw(sourceRect, painter, regionOfInterest);
+    else
+        painter.drawPixmap( regionOfInterest, backgroundImage, sourceRect );
+
+    painter.drawPixmap( regionOfInterest, underlyingImage, sourceRect );
+
+    painter.restore();
 }
 
 void WhiteBoardWidget::resizeEvent(QResizeEvent *event) {
@@ -92,7 +107,7 @@ void WhiteBoardWidget::clearBoard() {
 
 void WhiteBoardWidget::clearDrawing() {
     underlyingImage.fill( QColor(255, 255, 255, 0) );
-    update();
+    drawingChanged();
 }
 
 void WhiteBoardWidget::setPenColor(QColor color) {
@@ -109,7 +124,7 @@ void WhiteBoardWidget::newBackground(QPixmap pixmap) {
 
 void WhiteBoardWidget::newBackground(BoardBackground background) {
     backgroundType = background;
-    update();
+    drawingChanged();
 }
 
 void WhiteBoardWidget::internalClearBackground(QSize size) {
@@ -146,5 +161,10 @@ void WhiteBoardWidget::draw(QPointF pos, qreal pressure, DrawType drawType) {
     painter.setPen(pen);
     painter.drawLine( lastPoint, pos );
     lastPoint = pos;
+    drawingChanged();
+}
+
+void WhiteBoardWidget::drawingChanged() {
     update();
+    imageUpdated();
 }
