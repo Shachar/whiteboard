@@ -36,7 +36,7 @@ public slots:
 private:
     void internalClearBackground(QSize size);
 
-    void draw(QPointF pos, qreal pressure);
+    void draw(QPointF pos, qreal pressure, bool highlight);
 
     QPixmap underlyingImage, backgroundImage;
     qreal penWidth = 2;

@@ -6,6 +6,8 @@
 #include <QtDebug>
 
 static constexpr QPointF InvalidPoint = QPointF(-1, -1);
+static constexpr qreal HighlightAlpha = 0.05;
+static constexpr int HighlightSizeFactor = 10;
 
 WhiteBoardWidget::WhiteBoardWidget(QWidget *parent) : QWidget(parent), lastPoint(InvalidPoint)
 {
@@ -30,7 +32,7 @@ void WhiteBoardWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void WhiteBoardWidget::mouseMoveEvent(QMouseEvent *event) {
-    draw(event->pos(), 1);
+    draw(event->pos(), 1, false);
 }
 
 void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
@@ -42,7 +44,7 @@ void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
         if( lastPoint==InvalidPoint )
             lastPoint=event->posF();
         else
-            draw(event->posF(), event->pressure());
+            draw(event->posF(), event->pressure(), event->pointerType() == QTabletEvent::PointerType::Eraser);
     }
 }
 
@@ -86,12 +88,15 @@ void WhiteBoardWidget::internalClearBackground(QSize size) {
     clearDrawing();
 }
 
-void WhiteBoardWidget::draw(QPointF pos, qreal pressure) {
+void WhiteBoardWidget::draw(QPointF pos, qreal pressure, bool highlight) {
     QPainter painter( &underlyingImage );
     painter.setRenderHint(QPainter::Antialiasing);
     QPen pen = painter.pen();
-    pen.setColor( penColor );
-    pen.setWidthF(penWidth * pressure);
+    QColor color = penColor;
+    if( highlight )
+        color.setAlphaF( HighlightAlpha );
+    pen.setColor( color );
+    pen.setWidthF(penWidth * pressure * (highlight ? HighlightSizeFactor : 1));
     painter.setPen(pen);
     painter.drawLine( lastPoint, pos );
     lastPoint = pos;
