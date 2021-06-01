@@ -9,6 +9,8 @@ SecondaryWindow::SecondaryWindow(QWidget *parent, WhiteBoardWidget *board) : QMa
 
     _ui->slaveBoard->setMaster(board);
 
+    addAction( _ui->actionExitFullScreen );
+
     for( auto &action : _ui->menubar->actions() ) {
         adoptMenuActions(this, action);
     }
