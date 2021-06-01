@@ -152,9 +152,9 @@ void WhiteBoardWidget::draw(QPointF pos, qreal pressure, DrawType drawType) {
         }
         break;
     case DrawType::Eraser:
-        //pen.setColor( QColor(255, 255, 255, 0) );
+        pen.setColor( QColor(255, 255, 255, 0) );
         pen.setWidthF(penWidth * pressure * HighlightSizeFactor);
-        painter.setCompositionMode( QPainter::CompositionMode_Clear );
+        painter.setCompositionMode( QPainter::CompositionMode_Source );
         break;
     }
 
