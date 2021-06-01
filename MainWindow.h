@@ -22,6 +22,7 @@ public slots:
     void performPaste();
     void resetBoard();
     void toggleFullScreen();
+    void exitFullScreen();
     void setPenColor();
     void backgroundType();
     void loadImage();

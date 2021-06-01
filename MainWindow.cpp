@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent) :
         addAction(action);
     }
 
+    addAction(ui->actionExit_Full_Screen);
+
     for( auto &action : ui->menuBar->actions() ) {
         adoptMenuActions(action);
     }
@@ -92,6 +94,13 @@ void MainWindow::toggleFullScreen() {
         unimportantWidgetsVisibility(false);
         showFullScreen();
     }
+}
+
+void MainWindow::exitFullScreen() {
+    if( !isFullScreen() )
+        return;
+
+    toggleFullScreen();
 }
 
 void MainWindow::setPenColor() {

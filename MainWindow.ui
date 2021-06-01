@@ -208,10 +208,18 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Second Window</string>
+    <string>&amp;Second Window</string>
    </property>
    <property name="shortcut">
     <string>F6</string>
+   </property>
+  </action>
+  <action name="actionExit_Full_Screen">
+   <property name="text">
+    <string>&amp;Exit Full Screen</string>
+   </property>
+   <property name="shortcut">
+    <string>Esc</string>
    </property>
   </action>
  </widget>
@@ -391,6 +399,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionExit_Full_Screen</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>exitFullScreen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>performPaste()</slot>
@@ -400,5 +424,6 @@
   <slot>loadImage()</slot>
   <slot>saveImage()</slot>
   <slot>extraWindow(bool)</slot>
+  <slot>exitFullScreen()</slot>
  </slots>
 </ui>
