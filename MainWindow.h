@@ -28,6 +28,7 @@ public slots:
     void loadImage();
     //void saveImage();
     void extraWindow(bool enable);
+    void penSizeChanged();
 
 private:
     void unimportantWidgetsVisibility(bool show);

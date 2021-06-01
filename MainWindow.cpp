@@ -150,6 +150,10 @@ void MainWindow::extraWindow(bool enable) {
     }
 }
 
+void MainWindow::penSizeChanged() {
+    updateStatusBar();
+}
+
 // Private methods
 void MainWindow::unimportantWidgetsVisibility(bool show) {
     ui->menuBar->setVisible(show);

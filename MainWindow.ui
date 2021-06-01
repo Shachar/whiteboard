@@ -235,6 +235,7 @@
    <header>WhiteBoardWidget.h</header>
    <container>1</container>
    <slots>
+    <signal>penSizeChanged(qreal)</signal>
     <slot>clearBoard()</slot>
     <slot>newBackground(QPixmap)</slot>
     <slot>clearDrawing()</slot>
@@ -421,6 +422,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>board</sender>
+   <signal>penSizeChanged(qreal)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>penSizeChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>608</x>
+     <y>442</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>performPaste()</slot>
@@ -431,5 +448,6 @@
   <slot>saveImage()</slot>
   <slot>extraWindow(bool)</slot>
   <slot>exitFullScreen()</slot>
+  <slot>penSizeChanged()</slot>
  </slots>
 </ui>

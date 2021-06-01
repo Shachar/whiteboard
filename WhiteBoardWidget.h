@@ -19,6 +19,7 @@ public:
     void mouseMoveEvent(QMouseEvent *event) override;
 
     void tabletEvent(QTabletEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
     QColor getPenColor() const;
     qreal getPenSize() const {
@@ -29,6 +30,7 @@ public:
 
 signals:
     void imageUpdated();
+    void penSizeChanged(qreal penSize);
 
 public slots:
     void clearBoard();

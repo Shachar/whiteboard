@@ -93,6 +93,18 @@ void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
     draw(event->posF(), event->pressure(), type);
 }
 
+void WhiteBoardWidget::wheelEvent(QWheelEvent *event) {
+    static constexpr qreal WholePoint = 240;
+
+    penWidth += event->angleDelta().y() / WholePoint;
+    if( penWidth<=0 )
+        penWidth = 0.5;
+
+    event->accept();
+
+    emit penSizeChanged(penWidth);
+}
+
 QColor WhiteBoardWidget::getPenColor() const {
     return penColor;
 }
@@ -166,5 +178,5 @@ void WhiteBoardWidget::draw(QPointF pos, qreal pressure, DrawType drawType) {
 
 void WhiteBoardWidget::drawingChanged() {
     update();
-    imageUpdated();
+    emit imageUpdated();
 }
