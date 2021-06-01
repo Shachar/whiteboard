@@ -31,14 +31,16 @@ SOURCES += \
     WhiteBoardWidget.cpp \
     BoardBackground.cpp \
     SecondaryWindow.cpp \
-    SlaveBoard.cpp
+    SlaveBoard.cpp \
+    Support.cpp
 
 HEADERS += \
         MainWindow.h \
     WhiteBoardWidget.h \
     BoardBackground.h \
     SecondaryWindow.h \
-    SlaveBoard.h
+    SlaveBoard.h \
+    Support.h
 
 FORMS += \
         MainWindow.ui \

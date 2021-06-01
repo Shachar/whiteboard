@@ -1,5 +1,7 @@
 #include "MainWindow.h"
+
 #include "ui_MainWindow.h"
+#include "Support.h"
 
 #include <QClipboard>
 #include <QFileDialog>
@@ -56,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     addAction(ui->actionExit_Full_Screen);
 
     for( auto &action : ui->menuBar->actions() ) {
-        adoptMenuActions(action);
+        adoptMenuActions(this, action);
     }
 
     statusPenSize = new QLabel();
@@ -85,8 +87,6 @@ void MainWindow::resetBoard() {
 }
 
 void MainWindow::toggleFullScreen() {
-    qDebug()<<"Previous state "<<ui->board->windowState();
-
     if( isFullScreen() ) {
         unimportantWidgetsVisibility(true);
         showNormal();
@@ -155,18 +155,6 @@ void MainWindow::unimportantWidgetsVisibility(bool show) {
     ui->menuBar->setVisible(show);
     ui->colorToolBar->setVisible(show);
     ui->statusBar->setVisible(show);
-}
-
-void MainWindow::adoptMenuActions(QAction *action) {
-    if( action->isSeparator() ) {
-        // Not adoping a separator
-    } else if(action->menu()) {
-        // Action menu
-        for( auto &innerAction : action->menu()->actions() )
-            adoptMenuActions(innerAction);
-    } else {
-        addAction(action);
-    }
 }
 
 void MainWindow::updateStatusBar() {

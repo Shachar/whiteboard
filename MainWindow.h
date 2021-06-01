@@ -31,7 +31,6 @@ public slots:
 
 private:
     void unimportantWidgetsVisibility(bool show);
-    void adoptMenuActions(QAction *action);
     void updateStatusBar();
 
     Ui::MainWindow *ui = nullptr;

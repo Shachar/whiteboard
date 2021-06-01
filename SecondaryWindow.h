@@ -18,8 +18,12 @@ public:
 signals:
 
 public slots:
+    void toggleFullScreen();
+    void exitFullScreen();
 
 private:
+    void unimportantWidgetsVisibility(bool show);
+
     Ui::SecondaryWindow *_ui = nullptr;
 };
 
