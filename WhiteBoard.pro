@@ -45,3 +45,6 @@ HEADERS += \
 FORMS += \
         MainWindow.ui \
     SecondaryWindow.ui
+
+RESOURCES += \
+    Icon.qrc
