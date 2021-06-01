@@ -23,7 +23,7 @@ void BoardBackground::draw(QRectF sourceRect, QPainter &painter, const QRect &up
     case Type::Lines:
         for(
             int y=LineSpacing-1 + (sourceRect.top() / LineSpacing) * LineSpacing;
-            y<updateArea.bottom();
+            y<sourceRect.bottom();
             y+=LineSpacing
            )
         {
@@ -34,7 +34,7 @@ void BoardBackground::draw(QRectF sourceRect, QPainter &painter, const QRect &up
     case Type::Grid:
         for(
             int y=GridSpacing-1 + (updateArea.top() / GridSpacing) * GridSpacing;
-            y<updateArea.bottom();
+            y<sourceRect.bottom();
             y+=GridSpacing
            )
         {
@@ -43,7 +43,7 @@ void BoardBackground::draw(QRectF sourceRect, QPainter &painter, const QRect &up
         }
         for(
             int x=GridSpacing-1 + (updateArea.left() / GridSpacing) * GridSpacing;
-            x<updateArea.right();
+            x<sourceRect.right();
             x+=GridSpacing
            )
         {
