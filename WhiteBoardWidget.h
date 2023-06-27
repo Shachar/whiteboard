@@ -31,6 +31,7 @@ public:
 signals:
     void imageUpdated();
     void penSizeChanged(qreal penSize);
+    void scrollEvent(QPoint delta);
 
 public slots:
     void clearBoard();
@@ -44,6 +45,7 @@ private:
         Pen,
         Highlighter,
         Eraser,
+        Scroll,
     };
     void internalClearBackground(QSize size);
 
@@ -54,6 +56,7 @@ private:
     qreal penWidth = 2;
     QColor penColor = Qt::black;
     QPointF lastPoint;
+    QPoint scrollAnchor;
     BoardBackground backgroundType;
 };
 

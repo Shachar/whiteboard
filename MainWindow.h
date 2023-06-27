@@ -29,6 +29,7 @@ public slots:
     //void saveImage();
     void extraWindow(bool enable);
     void penSizeChanged();
+    void widgetNeedsScroll(QPoint delta);
 
 private:
     void unimportantWidgetsVisibility(bool show);

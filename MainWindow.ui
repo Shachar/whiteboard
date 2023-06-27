@@ -54,7 +54,7 @@
          <x>0</x>
          <y>0</y>
          <width>1218</width>
-         <height>789</height>
+         <height>803</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -88,7 +88,7 @@
      <x>0</x>
      <y>0</y>
      <width>1218</width>
-     <height>34</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuBoard">
@@ -120,9 +120,11 @@
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Fi&amp;le</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="actionOpen"/>
+    <addaction name="separator"/>
+    <addaction name="action_Open_FG"/>
     <addaction name="actionSave"/>
    </widget>
    <addaction name="menuFile"/>
@@ -196,7 +198,7 @@
   </action>
   <action name="actionOpen">
    <property name="text">
-    <string>&amp;Open...</string>
+    <string>Open &amp;BG...</string>
    </property>
   </action>
   <action name="actionSave">
@@ -226,6 +228,14 @@
     <string>Esc</string>
    </property>
   </action>
+  <action name="action_Open_FG">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Open FG...</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -236,6 +246,7 @@
    <container>1</container>
    <slots>
     <signal>penSizeChanged(qreal)</signal>
+    <signal>scrollEvent(QPoint)</signal>
     <slot>clearBoard()</slot>
     <slot>newBackground(QPixmap)</slot>
     <slot>clearDrawing()</slot>
@@ -438,6 +449,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>board</sender>
+   <signal>scrollEvent(QPoint)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widgetNeedsScroll(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>608</x>
+     <y>440</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>performPaste()</slot>
@@ -449,5 +476,6 @@
   <slot>extraWindow(bool)</slot>
   <slot>exitFullScreen()</slot>
   <slot>penSizeChanged()</slot>
+  <slot>widgetNeedsScroll(QPoint)</slot>
  </slots>
 </ui>

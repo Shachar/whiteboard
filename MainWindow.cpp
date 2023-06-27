@@ -6,6 +6,7 @@
 #include <QClipboard>
 #include <QFileDialog>
 #include <QSettings>
+#include <QScrollBar>
 
 #include <QtDebug>
 
@@ -152,6 +153,11 @@ void MainWindow::extraWindow(bool enable) {
 
 void MainWindow::penSizeChanged() {
     updateStatusBar();
+}
+
+void MainWindow::widgetNeedsScroll(QPoint delta) {
+    ui->scrollArea->horizontalScrollBar()->setValue(ui->scrollArea->horizontalScrollBar()->value()-delta.x());
+    ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->value()-delta.y());
 }
 
 // Private methods

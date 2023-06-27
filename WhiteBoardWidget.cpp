@@ -5,11 +5,12 @@
 #include <QResizeEvent>
 #include <QtDebug>
 
-static constexpr QPointF InvalidPoint = QPointF(-1, -1);
+static constexpr QPointF InvalidPointF = QPointF(-1, -1);
+static constexpr QPoint InvalidPoint = QPoint(-1, -1);
 static constexpr qreal HighlightAlpha = 0.05;
 static constexpr int HighlightSizeFactor = 10;
 
-WhiteBoardWidget::WhiteBoardWidget(QWidget *parent) : QWidget(parent), lastPoint(InvalidPoint)
+WhiteBoardWidget::WhiteBoardWidget(QWidget *parent) : QWidget(parent), lastPoint(InvalidPointF), scrollAnchor(InvalidPoint)
 {
 }
 
@@ -60,7 +61,7 @@ void WhiteBoardWidget::mouseMoveEvent(QMouseEvent *event) {
     } else if( (buttons & Qt::LeftButton) != 0 ) {
         type = DrawType::Pen;
     } else {
-        qDebug()<<"Mouse move with no relevant button pressed";
+        qDebug()<<"Mouse move with no relevant button pressed "<<buttons;
         return;
     }
 
@@ -70,12 +71,17 @@ void WhiteBoardWidget::mouseMoveEvent(QMouseEvent *event) {
 void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
     event->accept();
 
+    qDebug()<<"Tablet early event "<<event->buttons();
+    if( (event->buttons() & (Qt::LeftButton | Qt::RightButton))!= (Qt::LeftButton | Qt::RightButton) ) {
+        scrollAnchor = InvalidPoint;
+    }
+
     if( (event->buttons() & Qt::LeftButton)==0 ) {
-        lastPoint=InvalidPoint;
+        lastPoint=InvalidPointF;
         return;
     }
 
-    if( lastPoint==InvalidPoint ) {
+    if( lastPoint==InvalidPointF ) {
         lastPoint=event->posF();
         return;
     }
@@ -86,6 +92,12 @@ void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
         type = DrawType::Highlighter;
     } else if( (event->buttons() & Qt::MiddleButton) != 0 ) {
         type = DrawType::Eraser;
+    } else if( (event->buttons() & Qt::RightButton) != 0 ) {
+        if( scrollAnchor!=InvalidPoint ) {
+            scrollEvent( event->globalPos() - scrollAnchor );
+        }
+        scrollAnchor = event->globalPos();
+        type = DrawType::Scroll;
     } else {
         type = DrawType::Pen;
     }
@@ -168,6 +180,8 @@ void WhiteBoardWidget::draw(QPointF pos, qreal pressure, DrawType drawType) {
         pen.setWidthF(penWidth * pressure * HighlightSizeFactor);
         painter.setCompositionMode( QPainter::CompositionMode_Source );
         break;
+    case DrawType::Scroll:
+        return;
     }
 
     painter.setPen(pen);
