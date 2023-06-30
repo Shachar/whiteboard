@@ -108,7 +108,7 @@ void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
 void WhiteBoardWidget::wheelEvent(QWheelEvent *event) {
     static constexpr qreal WholePoint = 240;
 
-    penWidth += event->angleDelta().y() / WholePoint;
+    penWidth -= event->angleDelta().y() / WholePoint;
     if( penWidth<=0 )
         penWidth = 0.5;
 
