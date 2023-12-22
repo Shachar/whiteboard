@@ -151,6 +151,10 @@ void WhiteBoardWidget::newBackground(BoardBackground background) {
     drawingChanged();
 }
 
+const QPixmap &WhiteBoardWidget::getForeground() const {
+    return underlyingImage;
+}
+
 void WhiteBoardWidget::internalClearBackground(QSize size) {
     backgroundImage = QPixmap();
     underlyingImage = QPixmap( size );

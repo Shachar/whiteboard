@@ -38,6 +38,7 @@ public slots:
     void clearDrawing();
     void newBackground(QPixmap pixmap);
     void newBackground(BoardBackground background);
+    const QPixmap &getForeground() const;
     void setPenColor(QColor color);
 
 private:

@@ -134,6 +134,23 @@ void MainWindow::loadImage() {
     }
 }
 
+void MainWindow::saveImage() {
+    QSettings settings;
+    QVariant lastDir = settings.value("LastSavedFile");
+
+    QFileDialog dlg(this, "Save image", lastDir.isValid() ? lastDir.toString() : nullptr);
+    dlg.setAcceptMode( QFileDialog::QFileDialog::AcceptSave );
+    dlg.setFileMode( QFileDialog::FileMode::AnyFile );
+
+    if( dlg.exec() ) {
+        QString filename = dlg.selectedFiles()[0];
+        const QPixmap &image = ui->board->getForeground();
+        image.save(filename, nullptr);
+
+        settings.setValue("LastSavedFile", filename);
+    }
+}
+
 void MainWindow::extraWindow(bool enable) {
     if( enable ) {
         if( secondary )

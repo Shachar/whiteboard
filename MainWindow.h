@@ -26,7 +26,7 @@ public slots:
     void setPenColor();
     void backgroundType();
     void loadImage();
-    //void saveImage();
+    void saveImage();
     void extraWindow(bool enable);
     void penSizeChanged();
     void widgetNeedsScroll(QPoint delta);
