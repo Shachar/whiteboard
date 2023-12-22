@@ -26,6 +26,7 @@ public slots:
     void setPenColor();
     void backgroundType();
     void loadImage();
+    void saveImageAs();
     void saveImage();
     void extraWindow(bool enable);
     void penSizeChanged();
@@ -34,11 +35,13 @@ public slots:
 private:
     void unimportantWidgetsVisibility(bool show);
     void updateStatusBar();
+    void saveImage(QString filename);
 
     Ui::MainWindow *ui = nullptr;
     QLabel *statusPenSize = nullptr;
     QLabel *statusPenColor = nullptr;
     SecondaryWindow *secondary = nullptr;
+    QString savedImage;
 };
 
 #endif // MAINWINDOW_H

@@ -134,7 +134,7 @@ void MainWindow::loadImage() {
     }
 }
 
-void MainWindow::saveImage() {
+void MainWindow::saveImageAs() {
     QSettings settings;
     QVariant lastDir = settings.value("LastSavedFile");
 
@@ -144,11 +144,27 @@ void MainWindow::saveImage() {
 
     if( dlg.exec() ) {
         QString filename = dlg.selectedFiles()[0];
-        const QPixmap &image = ui->board->getForeground();
-        image.save(filename, nullptr);
-
-        settings.setValue("LastSavedFile", filename);
+        saveImage(filename);
     }
+}
+
+void MainWindow::saveImage() {
+    if( savedImage.isEmpty() )
+        saveImageAs();
+    else
+        saveImage(savedImage);
+}
+
+void MainWindow::saveImage(QString filename) {
+    QSettings settings;
+    const QPixmap &image = ui->board->getForeground();
+    image.save(filename, nullptr);
+
+    savedImage = filename;
+    settings.setValue("LastSavedFile", filename);
+    ui->actionSaveImage->setEnabled(true);
+    ui->actionSaveImage->setShortcuts( ui->actionSaveImageAs->shortcuts() );
+    ui->actionSaveImageAs->setShortcuts( {} );
 }
 
 void MainWindow::extraWindow(bool enable) {

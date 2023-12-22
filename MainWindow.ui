@@ -125,7 +125,8 @@
     <addaction name="actionOpen"/>
     <addaction name="separator"/>
     <addaction name="action_Open_FG"/>
-    <addaction name="actionSave"/>
+    <addaction name="actionSaveImage"/>
+    <addaction name="actionSaveImageAs"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuBoard"/>
@@ -201,12 +202,15 @@
     <string>Open &amp;BG...</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="actionSaveImageAs">
    <property name="enabled">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Save...</string>
+    <string>Save &amp;as...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionSecond_Window">
@@ -234,6 +238,14 @@
    </property>
    <property name="text">
     <string>&amp;Open FG...</string>
+   </property>
+  </action>
+  <action name="actionSaveImage">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
    </property>
   </action>
  </widget>
@@ -386,10 +398,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionSave</sender>
+   <sender>actionSaveImageAs</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>saveImage()</slot>
+   <slot>saveImageAs()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -465,6 +477,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSaveImage</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>performPaste()</slot>
@@ -477,5 +505,6 @@
   <slot>exitFullScreen()</slot>
   <slot>penSizeChanged()</slot>
   <slot>widgetNeedsScroll(QPoint)</slot>
+  <slot>saveImageAs()</slot>
  </slots>
 </ui>
