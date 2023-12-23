@@ -71,7 +71,6 @@ void WhiteBoardWidget::mouseMoveEvent(QMouseEvent *event) {
 void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
     event->accept();
 
-    qDebug()<<"Tablet early event "<<event->buttons();
     if( (event->buttons() & (Qt::LeftButton | Qt::RightButton))!= (Qt::LeftButton | Qt::RightButton) ) {
         scrollAnchor = InvalidPoint;
     }
