@@ -188,7 +188,7 @@ void MainWindow::penSizeChanged() {
     updateStatusBar();
 }
 
-void MainWindow::widgetNeedsScroll(QPoint delta) {
+void MainWindow::widgetNeedsScroll(QPointF delta) {
     ui->scrollArea->horizontalScrollBar()->setValue(ui->scrollArea->horizontalScrollBar()->value()-delta.x());
     ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->value()-delta.y());
 }

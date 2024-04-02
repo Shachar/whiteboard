@@ -258,7 +258,7 @@
    <container>1</container>
    <slots>
     <signal>penSizeChanged(qreal)</signal>
-    <signal>scrollEvent(QPoint)</signal>
+    <signal>scrollEvent(QPointF)</signal>
     <slot>clearBoard()</slot>
     <slot>newBackground(QPixmap)</slot>
     <slot>clearDrawing()</slot>
@@ -463,9 +463,9 @@
   </connection>
   <connection>
    <sender>board</sender>
-   <signal>scrollEvent(QPoint)</signal>
+   <signal>scrollEvent(QPointF)</signal>
    <receiver>MainWindow</receiver>
-   <slot>widgetNeedsScroll(QPoint)</slot>
+   <slot>widgetNeedsScroll(QPointF)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>608</x>
@@ -504,7 +504,7 @@
   <slot>extraWindow(bool)</slot>
   <slot>exitFullScreen()</slot>
   <slot>penSizeChanged()</slot>
-  <slot>widgetNeedsScroll(QPoint)</slot>
+  <slot>widgetNeedsScroll(QPointF)</slot>
   <slot>saveImageAs()</slot>
  </slots>
 </ui>

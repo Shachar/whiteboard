@@ -1,5 +1,7 @@
 #include "WhiteBoardWidget.h"
 
+#include "qt_version_compat.h"
+
 #include <QAction>
 #include <QPainter>
 #include <QResizeEvent>
@@ -81,27 +83,27 @@ void WhiteBoardWidget::tabletEvent(QTabletEvent *event) {
     }
 
     if( lastPoint==InvalidPointF ) {
-        lastPoint=event->posF();
+        lastPoint=event->POSITION();
         return;
     }
 
     DrawType type;
 
-    if( event->pointerType() == QTabletEvent::PointerType::Eraser ) {
+    if( event->pointerType() == POINTER_TYPE::Eraser ) {
         type = DrawType::Highlighter;
     } else if( (event->buttons() & Qt::MiddleButton) != 0 ) {
         type = DrawType::Eraser;
     } else if( (event->buttons() & Qt::RightButton) != 0 ) {
         if( scrollAnchor!=InvalidPoint ) {
-            scrollEvent( event->globalPos() - scrollAnchor );
+            scrollEvent( event->GLOBAL_POSITION() - scrollAnchor );
         }
-        scrollAnchor = event->globalPos();
+        scrollAnchor = event->GLOBAL_POSITION();
         type = DrawType::Scroll;
     } else {
         type = DrawType::Pen;
     }
 
-    draw(event->posF(), event->pressure(), type);
+    draw(event->POSITION(), event->pressure(), type);
 }
 
 void WhiteBoardWidget::wheelEvent(QWheelEvent *event) {
